@@ -210,3 +210,17 @@ const createBlock = (weatherItem) => {
 //преобразуем каждый переданный объект и отображаем его на странице 
 const newDate = enrtyData.map(transformData).forEach(createBlock);
 
+document.querySelector('.slider-wrapper').addEventListener('click', function(e) {
+   let first,
+         last,
+         parent;
+    parent = document.querySelector('.blocks');
+    first = parent.querySelector('.slider-block');
+    last = parent.querySelector('.slider-block:last-child');
+    if (e.target.classList.contains('prev')) {
+      parent.appendChild(first);
+    }
+    if (e.target.classList.contains('next')) {
+      parent.insertBefore(last, first);
+    }
+  })

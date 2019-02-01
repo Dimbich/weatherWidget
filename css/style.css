@@ -22,21 +22,24 @@ body {
 .section-header{
 	text-align: center;
 }
+
 .blocks{
-	position: relative;
+    position: relative;
     overflow: hidden;
     display: block;
     margin: 0 auto;
     padding: 0;
     width: 80%;
 }
+
 .slider-block{
-	float: left;
-	width:25%;
+    float: left;
+    width:25%;
     display: block;
     min-height: 1px;
     text-align: center;
 }
+
 .cloudiness{
  height: 70px;
  
@@ -59,7 +62,7 @@ body {
     z-index: 99;
     cursor: pointer;
     outline: none;
-}
+} 
 
 .next {
     right: 10%;
