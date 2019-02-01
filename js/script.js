@@ -60,6 +60,27 @@ const enrtyData = [
         cloudiness: 'Облачно',
         snow: true,
         rain: false,
+    },
+    {
+        data:Date.now()+oneDay*4,
+        temperature: {
+            night: 0,
+            day: 1,
+        },
+        cloudiness: 'Облачно',
+        snow: true,
+        rain: true,
+    },
+
+    {
+        data: Date.now()+oneDay*5,
+        temperature: {
+            night: 0,
+            day: 1,
+        },
+        cloudiness: 'Облачно',
+        snow: true,
+        rain: false,
     }
 
 ]
@@ -242,10 +263,9 @@ const createBlock = (weatherItem) => {
  }
 
  //отсавляем только данные за сегодня и на период на три дня
- const filterData = ({data}) => {
-    
+ const filterData = ({data}) => {   
     const curDateStart = new Date().setHours(0, 0, 0);
-    const curDateEnd = new Date().setHours(23, 59, 59, 999)*3;
+    const curDateEnd = curDateStart+oneDay*4;
     return data >= curDateStart && data<=curDateEnd;
  }
 
