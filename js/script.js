@@ -1,26 +1,25 @@
 const oneDay =1000*60*60*24;
 const enrtyData = [
-    // {
-    //     data: Date.now()-oneDay*2,
-    //     temperature: {
-    //         night: 0,
-    //         day: 4,
-    //     },
-    //     cloudiness: 'Переменная облачность',
-    //     snow: false,
-    //     rain: true,
-    // },
-    // {
-    //     data:Date.now()-oneDay,
-    //     temperature: {
-    //         night: 0,
-    //         day: 1,
-    //     },
-    //     cloudiness: 'Облачно',
-    //     snow: true,
-    //     rain: true,
-    // }
-    // 
+    {
+        data: Date.now()-oneDay*2,
+        temperature: {
+            night: 0,
+            day: 4,
+        },
+        cloudiness: 'Переменная облачность',
+        snow: false,
+        rain: true,
+    },
+    {
+        data:Date.now()-oneDay,
+        temperature: {
+            night: 0,
+            day: 1,
+        },
+        cloudiness: 'Облачно',
+        snow: true,
+        rain: true,
+    },    
     {
         data: Date.now(),
         temperature: {
@@ -189,8 +188,7 @@ const createBlock = (weatherItem) => {
     const blocks = document.querySelector('.blocks'),
         sliderBlock =  document.createElement('div');
     sliderBlock.classList.add('slider-block');
-    
-    console.log(blocks);
+
     for (let item in weatherItem) {
         let childDiv = document.createElement('div');
         if (item === 'cloudiness'){            
@@ -243,6 +241,16 @@ const createBlock = (weatherItem) => {
    })
  }
 
+ //отсавляем только данные за сегодня и на период на три дня
+ const filterData = ({data}) => {
+    
+    const curDateStart = new Date().setHours(0, 0, 0);
+    const curDateEnd = new Date().setHours(23, 59, 59, 999)*3;
+    return data >= curDateStart && data<=curDateEnd;
+ }
+
  creatMainBlock();
  //преобразуем каждый переданный объект и отображаем его на странице 
- const newDate = enrtyData.map(transformData).forEach(createBlock);
+ const newDate = enrtyData.filter(filterData).map(transformData).forEach(createBlock);
+
+
