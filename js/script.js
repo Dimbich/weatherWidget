@@ -186,11 +186,11 @@ const transformData = (objWeather) => {
 //start createBlock
 //создаем блок с погодой на странице  
 const createBlock = (weatherItem) => {
-    const div = document.createElement('div'),
-        blocks = document.querySelector('.blocks');
-
-    div.classList.add('slider-block');
+    const blocks = document.querySelector('.blocks'),
+        sliderBlock =  document.createElement('div');
+    sliderBlock.classList.add('slider-block');
     
+    console.log(blocks);
     for (let item in weatherItem) {
         let childDiv = document.createElement('div');
         if (item === 'cloudiness'){            
@@ -201,26 +201,48 @@ const createBlock = (weatherItem) => {
             childDiv.innerHTML = weatherItem[item];
         }        
         childDiv.classList.add(`${item}`)
-        div.appendChild(childDiv);
+        sliderBlock.appendChild(childDiv);
     }
-    blocks.appendChild(div);
+    blocks.appendChild(sliderBlock);
 }
-//---end createBlock
 
-//преобразуем каждый переданный объект и отображаем его на странице 
-const newDate = enrtyData.map(transformData).forEach(createBlock);
+  const creatMainBlock = () => {
+  const section=document.createElement('section'),
+    sectionHeader = document.createElement('div'),
+    sectionWrapper = document.createElement('div'),
+    prevArrow = document.createElement('button'),
+    nextArrow = document.createElement('button'),
+    blocks = document.createElement('div');
 
-document.querySelector('.slider-wrapper').addEventListener('click', function(e) {
-   let first,
-         last,
-         parent;
-    parent = document.querySelector('.blocks');
-    first = parent.querySelector('.slider-block');
-    last = parent.querySelector('.slider-block:last-child');
-    if (e.target.classList.contains('prev')) {
-      parent.appendChild(first);
-    }
-    if (e.target.classList.contains('next')) {
-      parent.insertBefore(last, first);
-    }
-  })
+   sectionHeader.classList.add('section-header');
+   sectionWrapper.classList.add('slider-wrapper');
+   prevArrow.classList.add('prev', 'arrow');
+   blocks.classList.add('blocks');
+   nextArrow.classList.add('next', 'arrow');
+   sectionHeader.innerHTML='<h2>Прогноз погоды</h2>'; 
+   section.appendChild(sectionHeader);
+   section.appendChild(sectionWrapper);
+   sectionWrapper.appendChild(prevArrow);
+   sectionWrapper.appendChild(blocks);
+   sectionWrapper.appendChild(nextArrow);
+   document.body.appendChild(section);
+
+   document.querySelector('.slider-wrapper').addEventListener('click', function(e) {
+    let first,
+          last,
+          parent;
+     parent = document.querySelector('.blocks');
+     first = parent.querySelector('.slider-block');
+     last = parent.querySelector('.slider-block:last-child');
+     if (e.target.classList.contains('prev')) {
+       parent.appendChild(first);
+     }
+     if (e.target.classList.contains('next')) {
+       parent.insertBefore(last, first);
+     }
+   })
+ }
+
+ creatMainBlock();
+ //преобразуем каждый переданный объект и отображаем его на странице 
+ const newDate = enrtyData.map(transformData).forEach(createBlock);
