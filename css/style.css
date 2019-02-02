@@ -1,9 +1,8 @@
-*{
-	box-sizing: border-box;
-}
+
 html {
   font-size: 12px;
 }
+
 body {
   font-family: 'Tahoma', sans-serif;
   font-weight: normal;
@@ -11,46 +10,76 @@ body {
   margin: 0;
 }
 
-.slider-wrapper{
-	position: relative;
-    display: block;
-	width: 90%;
-	box-sizing: border-box;
-    margin: 0 auto;
-	
-}
 .section-header{
 	text-align: center;
 }
 
-.blocks{
-    position: relative;
-    overflow: hidden;
+.slider-wrapper{
+	position: relative;
     display: block;
-    margin: 0 auto;
-    padding: 0;
-    width: 80%;
+	width:  528px;
+	margin: 0 auto;
+	padding: 10px 50px;
 }
 
-.slider-block{
-    float: left;
-    width:25%;
+.slider-wrapper .block{
+    width: 130px;
+    height: 180px;
     display: block;
+  }
+
+.blocks{
+     width: 520px;
+    overflow: hidden;
+  }
+
+ ul {
+    height: 180px;
+    width: 9999px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+   
+   
+  } 
+
+.blocks li {
+    display: inline-block;
     min-height: 1px;
     text-align: center;
+  }
+
+.day {
+    line-height: 22px;
 }
 
+.date, .dayTemp{
+    font-weight: bold;
+	font-size: 16px;
+}
+
+.nightTemp, .weather{
+    color:#9c9898;
+}
+
+.nightTemp{
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+  
 .cloudiness{
- height: 70px;
- 
+    height: 70px;
+    
 }
+
 .cloudiness img{
-	width:50px;
-	padding:5px;
-	display: inline-block;
-    height: 100%;
-    vertical-align: middle;
+       width:50px;
+       padding:5px;
+       display: inline-block;
+       height: 100%;
+       vertical-align: middle;
 }
+
 .arrow {
     top: 50%;
     -webkit-transform: translateY(-50%);
@@ -65,7 +94,7 @@ body {
 } 
 
 .next {
-    right: 10%;
+    right: 1px;
     background: url(../img/next.svg) center no-repeat;
     background-size: 70%;
    
@@ -75,25 +104,11 @@ body {
 	background-size: 70%;
 }
 .prev{
-	left: 10%;
+	left: 1px;
 	background: url(../img/prev.svg) center no-repeat;
     background-size: 70%;
 }
 .prev:hover{
 	background: url(../img/prev-hover.svg) center no-repeat;
 	background-size: 70%;
-}
-.day{
-	line-height: 22px;
-}
-.date, .dayTemp{
-	font-weight: bold;
-	font-size: 16px;
-}
-.nightTemp, .weather{
-	color:#9c9898;
-}
-.nightTemp{
-	margin-bottom: 20px;
-	margin-top: 5px;
 }

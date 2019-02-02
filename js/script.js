@@ -103,7 +103,7 @@ const transformData = (objWeather) => {
         let [day, date] = new Date(data).toLocaleString("ru", dateOptions).split(', ');
         //Если поолученая дата в диопазне текущей даты, то переопределяем день недели на "сегодня"
         if (data >= curDateStart && data <= curDateEnd) {
-            day = "сегодня";
+            day = "сегодня";            
         }
         
         return {
@@ -206,9 +206,10 @@ const transformData = (objWeather) => {
 //start createBlock
 //создаем блок с погодой на странице  
 const createBlock = (weatherItem) => {
-    const blocks = document.querySelector('.blocks'),
-        sliderBlock =  document.createElement('div');
-    sliderBlock.classList.add('slider-block');
+    const blocks = document.querySelector('.blocks ul'),
+        liBlock = document.createElement('li'),
+        block =  document.createElement('div');
+        block.classList.add('block');
 
     for (let item in weatherItem) {
         let childDiv = document.createElement('div');
@@ -220,9 +221,10 @@ const createBlock = (weatherItem) => {
             childDiv.innerHTML = weatherItem[item];
         }        
         childDiv.classList.add(`${item}`)
-        sliderBlock.appendChild(childDiv);
+        block.appendChild(childDiv);
     }
-    blocks.appendChild(sliderBlock);
+    liBlock.appendChild(block);
+    blocks.appendChild(liBlock);
 }
 
   const creatMainBlock = () => {
@@ -231,7 +233,8 @@ const createBlock = (weatherItem) => {
     sectionWrapper = document.createElement('div'),
     prevArrow = document.createElement('button'),
     nextArrow = document.createElement('button'),
-    blocks = document.createElement('div');
+    blocks = document.createElement('div'),
+    ulBlock = document.createElement('ul');
 
    sectionHeader.classList.add('section-header');
    sectionWrapper.classList.add('slider-wrapper');
@@ -243,23 +246,9 @@ const createBlock = (weatherItem) => {
    section.appendChild(sectionWrapper);
    sectionWrapper.appendChild(prevArrow);
    sectionWrapper.appendChild(blocks);
+   blocks.appendChild(ulBlock);
    sectionWrapper.appendChild(nextArrow);
    document.body.appendChild(section);
-
-   document.querySelector('.slider-wrapper').addEventListener('click', function(e) {
-    let first,
-          last,
-          parent;
-     parent = document.querySelector('.blocks');
-     first = parent.querySelector('.slider-block');
-     last = parent.querySelector('.slider-block:last-child');
-     if (e.target.classList.contains('prev')) {
-       parent.appendChild(first);
-     }
-     if (e.target.classList.contains('next')) {
-       parent.insertBefore(last, first);
-     }
-   })
  }
 
  //отсавляем только данные за сегодня и на период на три дня
@@ -269,8 +258,65 @@ const createBlock = (weatherItem) => {
     return data >= curDateStart && data<=curDateEnd;
  }
 
+ //ищем индекс элемента по текущей дате
+ const findIndex = ({data}) => {
+    const curDateStart = new Date().setHours(0, 0, 0);
+    const curDateEnd = new Date().setHours(23, 59, 59, 999);
+    let [day, date] = new Date(data).toLocaleString("ru", dateOptions).split(', ');
+    //Если поолученая дата в диопазне текущей даты, то переопределяем день недели на "сегодня"
+    if (data >= curDateStart && data <= curDateEnd) {
+        day = "сегодня";            
+    }
+ }
+
  creatMainBlock();
  //преобразуем каждый переданный объект и отображаем его на странице 
- const newDate = enrtyData.filter(filterData).map(transformData).forEach(createBlock);
+ const newDate = enrtyData.map(transformData).forEach(createBlock);
+
+ /* конфигурация */
+ const width = 130; // ширина изображения
+ const count = 1    ; // количество изображений
+ const countItem = 4;
+
+ const sliderWrapper = document.getElementsByClassName('slider-wrapper')[0],
+       list = sliderWrapper.querySelector('ul'),
+       listElems = sliderWrapper.querySelectorAll('li'),
+       btnPrev = sliderWrapper.querySelector('.prev'),
+       btnNext = sliderWrapper.querySelector('.next');
+
+ let position = 0; // текущий сдвиг влево
+ const maxPosition = listElems.length * width;
+
+ btnPrev.addEventListener('click',prevSlide);
+ btnNext.addEventListener('click',nextSlide);
 
 
+ function prevSlide() {
+   if (position !==  0 ) {
+    position = Math.min(position + width * count, 0)
+    list.style.marginLeft = position + 'px';
+    console.log(position) ;   
+   } 
+ }
+
+ function nextSlide() {
+    // сдвиг вправо
+    // последнее передвижение вправо может быть не на 3, а на 2 или 1 элемент
+    if (maxPosition >  countItem *width - position) {  
+        position = Math.max(position - width * count, -width * (maxPosition - count));
+        list.style.marginLeft = position + 'px';
+    }
+        
+    
+  };
+
+  let indexCurdate = enrtyData.findIndex(({data})=>{
+    const curDateStart = new Date().setHours(0, 0, 0);
+    const curDateEnd = new Date().setHours(23, 59, 59, 999);   
+    //Если поолученая дата в диопазне текущей даты, то переопределяем день недели на "сегодня"
+    return data >= curDateStart && data <= curDateEnd;
+  });
+
+//Устанавливаем текущую позицию
+  position = - indexCurdate * width;
+  list.style.marginLeft = position + 'px';
