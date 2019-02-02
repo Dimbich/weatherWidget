@@ -1,4 +1,13 @@
 const oneDay =1000*60*60*24;
+ /* конфигурация */
+ const width = 130; // ширина изображения
+ const count = 2    ; // количество изображений при пролистоовании
+ const countItem = 4; //количесвто элементотв в блоке
+ let root = document.documentElement;
+ root.style.setProperty('--countItem', countItem);
+ root.style.setProperty('--weatherItemWidth', width + "px");
+
+
 const enrtyData = [
     {
         data: Date.now()-oneDay*2,
@@ -145,23 +154,29 @@ const transformData = (objWeather) => {
     //start getTemp
     //Получаем температуру днем или ночью  
     const getTemp = (timesOfDay, value) => {
-        const  timeStr = timesOfDay === 'dayTemp' ? 'днём' : 'ночью';
-        return `${timeStr} ${value}&deg`;
+        if (value > 0) {
+            value =  `+${value}`;
+        } 
+        
+        return timesOfDay === 'dayTemp' ?  `днём ${value}&deg` : `ночью ${value}&deg`;
     }
 
     const getImgWeather = (cloudiness) => {
         let pathToImg='';
         
         switch (cloudiness) {           
-            case 'Облачно':
-                pathToImg = '../img/cloud.svg';
+            case 'без осадков':
+                pathToImg = '../img/sun.svg';
                 break;
-            case 'Переменная облачность':
-                pathToImg = '../img/cloudy-rain.svg';
+            case 'снег':
+                pathToImg = '../img/snowy.svg';
                 break;
-            case 'Ясно':
-            pathToImg = '../img/sun.svg';
+            case 'дождь':
+            pathToImg = '../img/rain.svg';
                 break;
+            case 'дождь со снегом':
+                pathToImg = '../img/rain-snow.svg';
+                    break;    
         }
         //возвращаем путь к картинке
         return pathToImg;       
@@ -175,7 +190,7 @@ const transformData = (objWeather) => {
             night: nightTemp,
             day: dayTemp
         },
-        cloudiness,
+        //cloudiness,
         snow,
         rain
     } = objWeather;
@@ -191,7 +206,7 @@ const transformData = (objWeather) => {
     const updateItem = {
         day,
         date,
-        cloudiness : getImgWeather(cloudiness),
+        cloudiness : getImgWeather(weather),
         dayTemp : getTemp('dayTemp', dayTemp),
         nightTemp: getTemp('nightTemp',nightTemp),           
         weather
@@ -273,10 +288,6 @@ const createBlock = (weatherItem) => {
  //преобразуем каждый переданный объект и отображаем его на странице 
  const newDate = enrtyData.map(transformData).forEach(createBlock);
 
- /* конфигурация */
- const width = 130; // ширина изображения
- const count = 1    ; // количество изображений
- const countItem = 4;
 
  const sliderWrapper = document.getElementsByClassName('slider-wrapper')[0],
        list = sliderWrapper.querySelector('ul'),

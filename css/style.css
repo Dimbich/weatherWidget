@@ -1,3 +1,9 @@
+:root {
+    --countItem: 4;
+    --weatherItemWidth:130px;
+    --blocksWidth:calc(var(--weatherItemWidth)*var(--countItem));    
+}
+
 
 html {
   font-size: 12px;
@@ -10,6 +16,7 @@ body {
   margin: 0;
 }
 
+
 .section-header{
 	text-align: center;
 }
@@ -17,9 +24,12 @@ body {
 .slider-wrapper{
 	position: relative;
     display: block;
-	width:  528px;
+	width:  var(--blocksWidth);
 	margin: 0 auto;
-	padding: 10px 50px;
+    padding: 10px 50px;
+    background: #9c9898 url(../img/background.jpg) no-repeat right;
+    border-radius: 15px; 
+    border:  1px solid #9c9898;   
 }
 
 .slider-wrapper .block{
@@ -29,17 +39,16 @@ body {
   }
 
 .blocks{
-     width: 520px;
+    width: var(--blocksWidth);
     overflow: hidden;
   }
 
- ul {
-    height: 180px;
+ ul {    
     width: 9999px;
     margin: 0;
     padding: 0;
     list-style: none;
-   
+    transition: all ease 1s;
    
   } 
 
@@ -59,7 +68,7 @@ body {
 }
 
 .nightTemp, .weather{
-    color:#9c9898;
+    color:#4d4a4a;
 }
 
 .nightTemp{
