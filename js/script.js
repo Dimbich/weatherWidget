@@ -2,7 +2,7 @@ const oneDay =1000*60*60*24;
  /* конфигурация */
  const width = 130; // ширина изображения
  const count = 2    ; // количество изображений при пролистоовании
- const countItem = 3; //количесвто элементотв в блоке
+ const countItem = 4; //количесвто элементотв в блоке
  let root = document.documentElement;
  root.style.setProperty('--countItem', countItem);
  root.style.setProperty('--weatherItemWidth', width + "px");
@@ -304,7 +304,7 @@ const createBlock = (weatherItem) => {
 
  function prevSlide() {
    if (position !==  0 ) {
-    position = Math.min(position + width * count, 0)
+    position = position + width * count;
     list.style.marginLeft = position + 'px';    
    } 
  }

@@ -33,7 +33,7 @@ body {
 }
 
 .slider-wrapper .block{
-    width: 130px;
+    width: var(--weatherItemWidth);
     height: 180px;
     display: block;
   }
